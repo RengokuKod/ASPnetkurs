@@ -1,0 +1,78 @@
+﻿@model BlazorApp2.Models.Rabotnik
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Rabotnik</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Фамилия)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Фамилия)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Имя)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Имя)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Отчество)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Отчество)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Рост)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Рост)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Должность)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Должность)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Стаж)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Стаж)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Планета_происхождения)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Планета_происхождения)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Образование)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Образование)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Возраст)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Возраст)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Фото)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Фото)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,87 @@
+﻿@model IEnumerable<BlazorApp2.Models.Posetitel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Фамилия)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Имя)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Отчество)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Возраст)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Размер_багажа)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Судимость)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Комната)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Питомец)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Мини_бар)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Фото)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Фамилия)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Имя)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Отчество)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Возраст)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Размер_багажа)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Судимость)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Комната)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Питомец)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Мини_бар)
+            </td>
+                <td><img class="db" src="@Html.DisplayFor(modelItem => item.Фото)" alt="Фото посетителя" /></td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

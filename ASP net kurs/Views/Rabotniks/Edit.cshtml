@@ -1,0 +1,79 @@
+﻿@model BlazorApp2.Models.Rabotnik
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Rabotnik</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="Фамилия" class="control-label"></label>
+                <input asp-for="Фамилия" class="form-control" />
+                <span asp-validation-for="Фамилия" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Имя" class="control-label"></label>
+                <input asp-for="Имя" class="form-control" />
+                <span asp-validation-for="Имя" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Отчество" class="control-label"></label>
+                <input asp-for="Отчество" class="form-control" />
+                <span asp-validation-for="Отчество" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Рост" class="control-label"></label>
+                <input asp-for="Рост" class="form-control" />
+                <span asp-validation-for="Рост" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Должность" class="control-label"></label>
+                <input asp-for="Должность" class="form-control" />
+                <span asp-validation-for="Должность" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Стаж" class="control-label"></label>
+                <input asp-for="Стаж" class="form-control" />
+                <span asp-validation-for="Стаж" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Планета_происхождения" class="control-label"></label>
+                <input asp-for="Планета_происхождения" class="form-control" />
+                <span asp-validation-for="Планета_происхождения" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Образование" class="control-label"></label>
+                <input asp-for="Образование" class="form-control" />
+                <span asp-validation-for="Образование" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Возраст" class="control-label"></label>
+                <input asp-for="Возраст" class="form-control" />
+                <span asp-validation-for="Возраст" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Фото" class="control-label"></label>
+                <input asp-for="Фото" class="form-control" />
+                <span asp-validation-for="Фото" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
