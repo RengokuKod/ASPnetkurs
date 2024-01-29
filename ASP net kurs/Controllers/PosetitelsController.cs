@@ -13,15 +13,36 @@ namespace ASP_net_kurs.Controllers
     public class PosetitelsController : Controller
     {
         private readonly ASP_net_kursContext _context;
-
-        public PosetitelsController(ASP_net_kursContext context)
+        private readonly IWebHostEnvironment webHostEnvironment;
+        public PosetitelsController(ASP_net_kursContext context, IWebHostEnvironment web)
         {
             _context = context;
+            webHostEnvironment = web;
         }
+        public string UploadedFile(Posetitel posetitel, IFormFile photo)
+        {
+            string? relativePath = null;
 
+            if (photo != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "auto/dataimagenext");
+                string fileName = photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    photo.CopyTo(fileStream);
+                }
+                relativePath = Path.Combine("auto/dataimagenext", fileName);
+                posetitel.Фото = relativePath;
+            }
+
+            return relativePath;
+        }
         // GET: Posetitels
         public async Task<IActionResult> Index()
         {
+            _context.GetData();
             return View(await _context.Posetitel.ToListAsync());
         }
 
@@ -33,8 +54,7 @@ namespace ASP_net_kurs.Controllers
                 return NotFound();
             }
 
-            var posetitel = await _context.Posetitel
-                .FirstOrDefaultAsync(m => m.id == id);
+            var posetitel = await _context.Posetitel.FirstOrDefaultAsync(m => m.id == id);
             if (posetitel == null)
             {
                 return NotFound();
@@ -46,7 +66,8 @@ namespace ASP_net_kurs.Controllers
         // GET: Posetitels/Create
         public IActionResult Create()
         {
-            return View();
+            Posetitel posetitel = new Posetitel();
+            return View(posetitel);
         }
 
         // POST: Posetitels/Create
@@ -54,10 +75,15 @@ namespace ASP_net_kurs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,Фамилия,Имя,Отчество,Возраст,Размер_багажа,Судимость,Комната,Питомец,Мини_бар,Фото")] Posetitel posetitel)
+        public async Task<IActionResult> Create( Posetitel posetitel)
         {
             if (ModelState.IsValid)
             {
+                var photo = Request.Form.Files.Count > 0 ? Request.Form.Files[0] : null;
+                string UniqueFileName = UploadedFile(posetitel, photo);
+                posetitel.Фото = UniqueFileName;
+                _context.Attach(posetitel);
+                _context.Entry(posetitel).State = EntityState.Added;
                 _context.Add(posetitel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +112,7 @@ namespace ASP_net_kurs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,Фамилия,Имя,Отчество,Возраст,Размер_багажа,Судимость,Комната,Питомец,Мини_бар,Фото")] Posetitel posetitel)
+        public async Task<IActionResult> Edit(int id,Posetitel posetitel)
         {
             if (id != posetitel.id)
             {
@@ -97,6 +123,11 @@ namespace ASP_net_kurs.Controllers
             {
                 try
                 {
+                    var photo = Request.Form.Files.Count > 0 ? Request.Form.Files[0] : null;
+                    string UniqueFileName = UploadedFile(posetitel, photo);
+                    posetitel.Фото = UniqueFileName;
+                    _context.Attach(posetitel);
+                    _context.Entry(posetitel).State = EntityState.Added;
                     _context.Update(posetitel);
                     await _context.SaveChangesAsync();
                 }

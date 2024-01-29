@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Посетители</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a type="button" class="btn btn-dark n" asp-action="Create">Добавить посетителя</a>
 </p>
 <table class="table">
     <thead>
@@ -75,11 +75,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Мини_бар)
             </td>
-                <td><img class="db" src="@Html.DisplayFor(modelItem => item.Фото)" alt="Фото посетителя" /></td>
+                <td> 
+                    <img class="db" src="@Url.Content("~/"+item.Фото)" alt="Фото посетителя" />
+                </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                    <a  class="n" asp-action="Edit" asp-route-id="@item.id">Изменить</a> |
+                    <a  class="n" asp-action="Details" asp-route-id="@item.id">Детали</a> |
+                    <a class=" n" asp-action="Delete" asp-route-id="@item.id">Удалить</a>
             </td>
         </tr>
 }

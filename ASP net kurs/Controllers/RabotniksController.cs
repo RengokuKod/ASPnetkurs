@@ -13,15 +13,36 @@ namespace ASP_net_kurs.Controllers
     public class RabotniksController : Controller
     {
         private readonly ASP_net_kursContext _context;
-
-        public RabotniksController(ASP_net_kursContext context)
+        private readonly IWebHostEnvironment webHostEnvironment;
+        public RabotniksController(ASP_net_kursContext context, IWebHostEnvironment web)
         {
             _context = context;
+            webHostEnvironment = web;
         }
+        public string UploadedFile(Rabotnik rabotnik, IFormFile photo)
+        {
+            string? relativePath = null;
 
+            if (photo != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "auto/rabotniknext");
+                string fileName = photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    photo.CopyTo(fileStream);
+                }
+                relativePath = Path.Combine("auto/rabotniknext", fileName);
+                rabotnik.Фото = relativePath;
+            }
+
+            return relativePath;
+        }
         // GET: Rabotniks
         public async Task<IActionResult> Index()
         {
+            _context.GetData2();
             return View(await _context.Rabotnik.ToListAsync());
         }
 
@@ -46,7 +67,8 @@ namespace ASP_net_kurs.Controllers
         // GET: Rabotniks/Create
         public IActionResult Create()
         {
-            return View();
+            Rabotnik rabotnik = new Rabotnik();
+            return View(rabotnik);
         }
 
         // POST: Rabotniks/Create
@@ -54,10 +76,15 @@ namespace ASP_net_kurs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,Фамилия,Имя,Отчество,Рост,Должность,Стаж,Планета_происхождения,Образование,Возраст,Фото")] Rabotnik rabotnik)
+        public async Task<IActionResult> Create( Rabotnik rabotnik)
         {
             if (ModelState.IsValid)
             {
+                var photo = Request.Form.Files.Count > 0 ? Request.Form.Files[0] : null;
+                string UniqueFileName = UploadedFile(rabotnik, photo);
+                rabotnik.Фото = UniqueFileName;
+                _context.Attach(rabotnik);
+                _context.Entry(rabotnik).State = EntityState.Added;
                 _context.Add(rabotnik);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,10 +113,11 @@ namespace ASP_net_kurs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,Фамилия,Имя,Отчество,Рост,Должность,Стаж,Планета_происхождения,Образование,Возраст,Фото")] Rabotnik rabotnik)
+        public async Task<IActionResult> Edit(int id,  Rabotnik rabotnik)
         {
             if (id != rabotnik.id)
             {
+            
                 return NotFound();
             }
 
@@ -97,6 +125,11 @@ namespace ASP_net_kurs.Controllers
             {
                 try
                 {
+                    var photo = Request.Form.Files.Count > 0 ? Request.Form.Files[0] : null;
+                    string UniqueFileName = UploadedFile(rabotnik, photo);
+                    rabotnik.Фото = UniqueFileName;
+                    _context.Attach(rabotnik);
+                    _context.Entry(rabotnik).State = EntityState.Added;
                     _context.Update(rabotnik);
                     await _context.SaveChangesAsync();
                 }

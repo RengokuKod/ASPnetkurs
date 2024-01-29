@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\auto\dataimagenext\" />
+    <Folder Include="wwwroot\auto\rabotniknext\" />
     <Folder Include="wwwroot\save\imgbasepos\" />
   </ItemGroup>
 
